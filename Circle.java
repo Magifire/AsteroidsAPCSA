@@ -20,7 +20,11 @@ public class Circle {
     public void setHeading(double h){
         this.heading = h;
     }
-    public boolean move() {
+    public boolean move(double xVelocity, double yVelocity) {
+
+        position.x += xVelocity;
+        position.y += yVelocity;
+
         if (this.position.x > 800) {
             this.position.x = 0;
         }
