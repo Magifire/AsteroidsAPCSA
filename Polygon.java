@@ -12,20 +12,8 @@ USAGE: You are intended to instantiate this class with a set of points that
 NOTE: You don't need to worry about the "magic math" details.
 */
 
-public class Polygon implements Cloneable {
-    private Point position; // The absolute point in space of the center of the polgon
-    private double heading; // Can be thought of as the "rotation." 0 is right/east. Increase rotates clockwise
+public class Polygon extends Shape implements Cloneable {
     private Point[] vertices; // An array of points that comprise the vertices of the polygon. Drawn relative to the "position"
-
-    public Point getPosition() {
-        return this.position;
-    }
-    public double getHeading() {
-        return this.heading;
-    }
-    public void setHeading(double _newHeading) {
-        this.heading = _newHeading;
-    }
 
     public boolean collidesWith(Polygon other) {
         Point[] otherPoints = other.getPoints();
@@ -38,8 +26,7 @@ public class Polygon implements Cloneable {
     }
 
     public Polygon(Point[] _vertices, Point _position, double _heading) {
-        this.position = _position;
-        this.heading = _heading;
+        super(_position, _heading);
         vertices = _vertices;
 
         // First, we find the shape's top-most left-most boundary, its origin.
@@ -64,12 +51,12 @@ public class Polygon implements Cloneable {
         Point[] points = new Point[vertices.length];
         int i = 0;
         for (Point p : vertices) {
-            double x = ((p.x - center.x) * Math.cos(Math.toRadians(this.heading)))
-                    - ((p.y - center.y) * Math.sin(Math.toRadians(this.heading)))
-                    + center.x / 2 + this.position.x;
-            double y = ((p.x - center.x) * Math.sin(Math.toRadians(this.heading)))
-                    + ((p.y - center.y) * Math.cos(Math.toRadians(this.heading)))
-                    + center.y / 2 + this.position.y;
+            double x = ((p.x - center.x) * Math.cos(Math.toRadians(super.getHeading())))
+                    - ((p.y - center.y) * Math.sin(Math.toRadians(super.getHeading())))
+                    + center.x / 2 + super.getPosition().x;
+            double y = ((p.x - center.x) * Math.sin(Math.toRadians(super.getHeading())))
+                    + ((p.y - center.y) * Math.cos(Math.toRadians(super.getHeading())))
+                    + center.y / 2 + super.getPosition().y;
             points[i] = new Point(x, y);
             i++;
         }
@@ -92,7 +79,7 @@ public class Polygon implements Cloneable {
     }
 
     public void rotate(int degrees) {
-        this.heading = ((this.heading + degrees) % 360);
+        super.setHeading((super.getHeading() + degrees) % 360);
     }
 
     /*

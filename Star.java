@@ -16,14 +16,7 @@ public class Star extends Circle{
     }
 
     public boolean move() {
-        Point position = new Point(getPosition().x, getPosition().y);
         double heading = getHeading();
-
-        position.x += (0.01 * Math.cos(Math.toRadians(heading)));
-        position.y += (0.01 * Math.sin(Math.toRadians(heading)));
-
-        setPosition(position);
-
-        return super.move();
+        return super.move((0.01 * Math.cos(Math.toRadians(heading))), (0.01 * Math.sin(Math.toRadians(heading))));
     }
 }

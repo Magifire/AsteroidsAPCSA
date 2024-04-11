@@ -22,7 +22,6 @@ public class Bullet extends Circle{
     public boolean move() {
         if (distanceTraveled < MAX_DISTANCE) {
             distanceTraveled++;
-
             return super.move((BULLET_SPEED * Math.cos(Math.toRadians(super.getHeading()))), (BULLET_SPEED * Math.sin(Math.toRadians(super.getHeading()))));
         } else {
             return false;
