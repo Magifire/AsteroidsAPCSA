@@ -22,6 +22,33 @@ public class Asteroids extends Game {
     private boolean turningRight;
     private boolean accelerating;
 
+    public void endGame(Graphics brush){
+        this.play = false;
+
+        Font defaultFont = brush.getFont();
+
+
+        Font customFont;
+
+        //https://stackoverflow.com/questions/5652344/how-can-i-use-a-custom-font-in-java
+        try {
+            //create the font to use. Specify the size!
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("kamikaze.ttf")).deriveFont(113f);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            //register the font
+            ge.registerFont(customFont);
+
+            brush.setColor(new Color(128, 8, 8));
+            brush.setFont(customFont);
+            brush.drawString("YOU DIED", 100, 200);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+                    
+        brush.setFont(defaultFont);
+    }
+
     public Asteroids() {
         // Call the Game constructor to create a new "Asteroids!" window that is 800 x 600 pixels
         super("Asteroids!", 800, 600);
@@ -67,13 +94,21 @@ public class Asteroids extends Game {
         asteroids = new ArrayList<Asteroid>(Arrays.asList(array));*/
         this.asteroids = new ArrayList<Asteroid>();
 
+        ArrayList<Point> points;
         for(int i = 0; i < 12; i++){
-            ArrayList<Point> points = new ArrayList<Point>(Arrays.asList(asteroidPoints));
-            for(Point p : points){
-                p.x += Math.random() * 4;
-                p.y += Math.random() * 4;
+            points = new ArrayList<Point>(Arrays.asList(asteroidPoints)); //manually deepcopy
+            for(int j = 0; j < points.size(); j++){
+                points.get(j).x += Math.random() * 10;
+                //p.x -= 5;
+                points.get(j).y += Math.random() * 10;
+                //p.y -= 5;
+                System.out.println(points.get(j).x + " " + points.get(j).y + " " + j);
             }
-            asteroids.add(new Asteroid(points.toArray(), new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360));
+            
+            for(Point p : points){
+                System.out.println(p.x + " " + p.y + " yes");
+            }
+            asteroids.add(new Asteroid((points.toArray(new Point[0])), new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360));
         }
 
         // Create two new star objects with random coordinates on the canvas and with random headings
@@ -125,6 +160,11 @@ public class Asteroids extends Game {
         }
         // End Stars /////////////////////////////////////////////////////////
 
+        if(bullet1 != null && this.ship.contains(bullet1.getPosition())){
+            endGame(brush);
+        } else if(bullet2 != null && this.ship.contains(bullet2.getPosition())){
+            endGame(brush);
+        }
         // Asteroids /////////////////////////////////////////////////////////
         if (this.asteroids != null) {
             // Milestone 4: Add a for loop to move (only if this.play is true) and paint each asteroid
@@ -135,31 +175,7 @@ public class Asteroids extends Game {
                     asteroids.get(i).move();
                 }
                 if(asteroids.get(i).collidesWith(ship)){
-
-                    this.play = false;
-
-                    Font defaultFont = brush.getFont();
-
-
-                    Font customFont;
-
-                    //https://stackoverflow.com/questions/5652344/how-can-i-use-a-custom-font-in-java
-                    try {
-                        //create the font to use. Specify the size!
-                        customFont = Font.createFont(Font.TRUETYPE_FONT, new File("kamikaze.ttf")).deriveFont(113f);
-                        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                        //register the font
-                        ge.registerFont(customFont);
-
-                        brush.setColor(new Color(128, 8, 8));
-                        brush.setFont(customFont);
-                        brush.drawString("YOU DIED", 100, 200);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    
-                    brush.setFont(defaultFont);
+                    endGame(brush);
                 } else if(bullet1 != null && asteroids.get(i).contains(bullet1.getPosition())){
                     bullet1 = null;
                     asteroids.remove(asteroids.get(i));
@@ -201,9 +217,9 @@ public class Asteroids extends Game {
 
     private void shoot() {
         if (bullet1 == null) {
-            bullet1 = new Bullet(new Point(ship.getPosition().x, ship.getPosition().y), ship.getHeading());
+            bullet1 = new Bullet(new Point(ship.getPosition().x + (25 * Math.cos(ship.getHeading())), ship.getPosition().y + (25 * Math.sin(ship.getHeading()))), ship.getHeading());
         } else if (bullet2 == null) {
-            bullet2 = new Bullet(new Point(ship.getPosition().x, ship.getPosition().y), ship.getHeading());
+            bullet2 = new Bullet(new Point(ship.getPosition().x + (25 * Math.cos(ship.getHeading())), ship.getPosition().y + (25 * Math.sin(ship.getHeading()))), ship.getHeading());
         }
     }
 
