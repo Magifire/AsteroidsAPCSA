@@ -49,7 +49,7 @@ public class Asteroids extends Game {
             new Point(40, 10)
         };
 
-        Asteroid[] array = {
+        /*Asteroid[] array = {
             new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360),
             new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360),
             new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360),
@@ -64,7 +64,17 @@ public class Asteroids extends Game {
             new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360)
             // Add more asteroids here
         };
-        asteroids = new ArrayList<Asteroid>(Arrays.asList(array));
+        asteroids = new ArrayList<Asteroid>(Arrays.asList(array));*/
+        this.asteroids = new ArrayList<Asteroid>();
+
+        for(int i = 0; i < 12; i++){
+            ArrayList<Point> points = new ArrayList<Point>(Arrays.asList(asteroidPoints));
+            for(Point p : points){
+                p.x += Math.random() * 4;
+                p.y += Math.random() * 4;
+            }
+            asteroids.add(new Asteroid(points.toArray(), new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360));
+        }
 
         // Create two new star objects with random coordinates on the canvas and with random headings
         // so they can move in random directions.
