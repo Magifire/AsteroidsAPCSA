@@ -76,38 +76,24 @@ public class Asteroids extends Game {
             new Point(40, 10)
         };
 
-        /*Asteroid[] array = {
-            new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360),
-            new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360),
-            new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360),
-            new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360),
-            new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360),
-            new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360),
-            new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360),
-            new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360),
-            new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360),
-            new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360),
-            new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360),
-            new Asteroid(asteroidPoints, new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360)
-            // Add more asteroids here
-        };
-        asteroids = new ArrayList<Asteroid>(Arrays.asList(array));*/
+
         this.asteroids = new ArrayList<Asteroid>();
 
-        ArrayList<Point> points;
         for(int i = 0; i < 12; i++){
-            points = new ArrayList<Point>(Arrays.asList(asteroidPoints)); //manually deepcopy
+            ArrayList<Point> points = new ArrayList<Point>();
+            for(Point p : asteroidPoints){
+                points.add(new Point(p.x, p.y));
+            }
             for(int j = 0; j < points.size(); j++){
                 points.get(j).x += Math.random() * 10;
-                //p.x -= 5;
                 points.get(j).y += Math.random() * 10;
-                //p.y -= 5;
-                System.out.println(points.get(j).x + " " + points.get(j).y + " " + j);
+
+                //System.out.println(points.get(j).x + " " + points.get(j).y + " " + j);
             }
             
-            for(Point p : points){
+           /* for(Point p : points){
                 System.out.println(p.x + " " + p.y + " yes");
-            }
+            }*/
             asteroids.add(new Asteroid((points.toArray(new Point[0])), new Point(Math.random() * 800, Math.random() * 600), Math.random() * 360));
         }
 
@@ -216,6 +202,7 @@ public class Asteroids extends Game {
     }
 
     private void shoot() {
+        
         if (bullet1 == null) {
             bullet1 = new Bullet(new Point(ship.getPosition().x + (25 * Math.cos(ship.getHeading())), ship.getPosition().y + (25 * Math.sin(ship.getHeading()))), ship.getHeading());
         } else if (bullet2 == null) {
