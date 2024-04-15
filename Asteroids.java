@@ -146,11 +146,11 @@ public class Asteroids extends Game {
         }
         // End Stars /////////////////////////////////////////////////////////
 
-        if(bullet1 != null && this.ship.contains(bullet1.getPosition())){
+        /*if(bullet1 != null && this.ship.contains(bullet1.getPosition())){
             endGame(brush);
         } else if(bullet2 != null && this.ship.contains(bullet2.getPosition())){
             endGame(brush);
-        }
+        }*/
         // Asteroids /////////////////////////////////////////////////////////
         if (this.asteroids != null) {
             // Milestone 4: Add a for loop to move (only if this.play is true) and paint each asteroid
@@ -202,11 +202,18 @@ public class Asteroids extends Game {
     }
 
     private void shoot() {
-        
+        double posOffsetX = 0;
+        double posOffsetY = 0;
+
+        double xScale = posOffsetX;
+        double yScale = posOffsetY;
+
+        posOffsetX = 0;
+        posOffsetY = 0;
         if (bullet1 == null) {
-            bullet1 = new Bullet(new Point(ship.getPosition().x + (25 * Math.cos(ship.getHeading())), ship.getPosition().y + (25 * Math.sin(ship.getHeading()))), ship.getHeading());
+            bullet1 = new Bullet(new Point(ship.getPosition().x + posOffsetX + (xScale * Math.cos(ship.getHeading())), ship.getPosition().y + posOffsetY + (yScale * Math.sin(ship.getHeading()))), ship.getHeading());
         } else if (bullet2 == null) {
-            bullet2 = new Bullet(new Point(ship.getPosition().x + (25 * Math.cos(ship.getHeading())), ship.getPosition().y + (25 * Math.sin(ship.getHeading()))), ship.getHeading());
+            bullet2 = new Bullet(new Point(ship.getPosition().x + posOffsetX + (xScale * Math.cos(ship.getHeading())), ship.getPosition().y + posOffsetY + (yScale * Math.sin(ship.getHeading()))), ship.getHeading());
         }
     }
 
